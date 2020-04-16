@@ -330,7 +330,6 @@ namespace DecisionSimulationModelGenerator
             var array2 = new[] { 4, 5 };
             var array3 = new[] { 6,7 };
 
-
             foreach (var a in array1)
             {
                 foreach (var b in array2)
