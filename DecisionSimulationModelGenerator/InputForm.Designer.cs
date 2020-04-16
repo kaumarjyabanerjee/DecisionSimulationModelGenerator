@@ -102,7 +102,6 @@
             // 
             this.optioncount.FormattingEnabled = true;
             this.optioncount.Items.AddRange(new object[] {
-            "1",
             "2",
             "3",
             "4",
