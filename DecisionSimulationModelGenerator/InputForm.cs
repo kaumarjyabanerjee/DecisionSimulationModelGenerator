@@ -25,9 +25,10 @@ namespace DecisionSimulationModelGenerator
         int questionPlotNum = 6; int optionsPlotNum = 6; int optCountNum = 0;
         // ArrayList contentsList = new ArrayList()
         //  List<string> add_list = new List<string>[100];
-        int inx = 0; int inxLen = 0;
+        int inx = 1; int inxLen = 0;
         string[] array = { "01", "02", "03", "04", "05", "06", "07", "08", "09", "10" };
         string[] myList;
+        int columnIn = 0; 
         public InputForm()
         {
             InitializeComponent();
@@ -267,100 +268,62 @@ namespace DecisionSimulationModelGenerator
           
             myList = new string[optCountNum];
             //    vstoWorksheet.Range[questionPlot + questionPlotNum].Value2 = "Questions";
-            int inx = 0;
+          
             int InnerIndex = 0;
             int to = optCountNum + 1; int froms = InnerIndex + 1;
-         
 
-         
-
-           // foreach (contents item in contentsobj)
-           // {
-                int restArrLen = contentsobj.Count - 1;
-            string context = "";
-            for (int k = 0; k < contentsobj.Count; k++) {
-               // for (int i = 0; i < ; i++)
-              //  {
-                    contetObjOpt[k] = ConvertStringArrayToString(contentsobj[k].OptArr);
-                  /*  context += contentsobj[k].OptArr[i];
-                    for (int m = 1; m <= restArrLen; m++)
-                    {
-                        for (int s = 0; s < contentsobj[m].OptArr.Length; s++)
-                        {
-                            context += contentsobj[m].OptArr[s];
-                        }
-                           
-                    }*/
-
-        ///    }
-
-                //   MessageBox.Show("items" + contentsobj.OptArr.Count);
-                //vstoWorksheet2.Range[GetColumnName(1) + InnerIndex + 1, GetColumnName(1)+ plottill].Value2 = contentsobj[0].OptArr[k];
-                /*  for (int k = 0; k <item.OptArr.Length; k++)
-               {
-                     //   String consVal = contentsobj[inx].OptArr[k];
-
-                     if (inx == 0)
-                     {
-                     //    vstoWorksheet2.Range[GetColumnName(1) + froms, GetColumnName(1) + to].Value2 = item.OptArr[k];
-                        // froms = to + 1;
-                        // to = froms + optCountNum;
-
-                         for (int p = 0; p < restArrLen; p++)
-                         {
-                             //  consVal+=
-                         }
-                     }
-                        
-
-
-           // }
-            */
-                inx++;
+            for (var p = 0;p< contentsobj.Count;p++)
+            {
+                var incre = p + 1;
+                vstoWorksheet2.Range[GetColumnName(incre) + 1].Value2 = "Selection "+ incre;
+            }
+            var incre2 = contentsobj.Count + 1;
+            
+            vstoWorksheet2.Range[GetColumnName(incre2) + 1].Value2 = "Combinations";
+            if (contentsobj.Count == 3)
+            {
                 
+                var array1 = contentsobj[0].OptArr;
+                var array2 = contentsobj[1].OptArr;
+                var array3 = contentsobj[2].OptArr;
 
-            }
 
-            for (int c = 0; c <optCountNum; c++)
-            {
-              //  string opt = contetObjOpt[c].Replace(".", "");
-            //    MessageBox.Show("items" + opt.Length);
-            }
-            var array1 = new[] { 1, 2, 3 };
-            var array2 = new[] { 4, 5 };
-            var array3 = new[] { 6,7 };
-
-            foreach (var a in array1)
-            {
-                foreach (var b in array2)
+                foreach (var a in array1.Select((value, index) => (value, index)))
                 {
-                    foreach (var c in array3)
+
+                    foreach (var b in array2.Select((value, index) => (value, index)))
                     {
-                        string _cons = a + "_" + b + "_" + c;
-                        MessageBox.Show(_cons);
-                        //   Console.WriteLine("{0},{1},{2}", a, b, c);
+
+                        foreach (var c in array3.Select((value, index) => (value, index)))
+                        {
+                            string values = a.value + "_" + b.value + "_" + c.value;
+                            string indexes = a.index + "_" + b.index + "_" + c.index;
+                            //  MessageBox.Show(values);
+                            //   MessageBox.Show(indexes);
+                            plottcombinations(values, indexes);
+                        }
                     }
                 }
             }
-            MessageBox.Show("items" + context);
+          
             
         }
-        static string ConvertStringArrayToStringJoin(string array)
-        {
-            // Use string Join to concatenate the string elements.
-            string result = string.Join(".", array);
-            return result;
-        }
-        static string ConvertStringArrayToString(string[] array)
-        {
-            // Concatenate all the elements into a StringBuilder.
-            StringBuilder builder = new StringBuilder();
-            foreach (string value in array)
-            {
-                builder.Append(value);
-                builder.Append('.');
+
+        public void plottcombinations(string values, string indexes) {
+            var valuesplit = values.Split('_');
+
+            var boxin = inx + 1;
+            inx = boxin;
+            Worksheet vstoWorksheet2 = Globals.ThisAddIn.Application.ActiveWorkbook.Worksheets[1];
+            for (var a = 0; a < valuesplit.Length; a++) {
+              
+                columnIn = a + 1;
+               
+                vstoWorksheet2.Range[GetColumnName(columnIn) + boxin].Value2 = valuesplit[a];
+                //  MessageBox.Show(valuesplit[a]);
+              
             }
-            return builder.ToString();
+            vstoWorksheet2.Range[GetColumnName(columnIn+1) + boxin].Value2 = indexes;
         }
         public static string GetColumnName(int columnNumber)
         {
