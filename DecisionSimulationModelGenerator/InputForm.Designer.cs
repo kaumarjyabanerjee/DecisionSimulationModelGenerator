@@ -32,6 +32,7 @@
             this.generatormodel = new System.Windows.Forms.Button();
             this.questionbox = new System.Windows.Forms.GroupBox();
             this.addoptions = new System.Windows.Forms.Button();
+            this.quesLen = new System.Windows.Forms.Label();
             this.optioncount = new System.Windows.Forms.ComboBox();
             this.label2 = new System.Windows.Forms.Label();
             this.questions = new System.Windows.Forms.RichTextBox();
@@ -40,7 +41,6 @@
             this.addcontent = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
             this.quesleng = new System.Windows.Forms.ComboBox();
-            this.quesLen = new System.Windows.Forms.Label();
             this.quesgroup = new System.Windows.Forms.GroupBox();
             this.questionbox.SuspendLayout();
             this.quesgroup.SuspendLayout();
@@ -92,6 +92,17 @@
             this.addoptions.Text = "Add Options";
             this.addoptions.UseVisualStyleBackColor = true;
             this.addoptions.Click += new System.EventHandler(this.addoptions_Click);
+            // 
+            // quesLen
+            // 
+            this.quesLen.AutoSize = true;
+            this.quesLen.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.quesLen.Location = new System.Drawing.Point(22, 17);
+            this.quesLen.Name = "quesLen";
+            this.quesLen.Size = new System.Drawing.Size(87, 17);
+            this.quesLen.TabIndex = 8;
+            this.quesLen.Text = "Question 1";
+            this.quesLen.Visible = false;
             // 
             // optioncount
             // 
@@ -178,17 +189,6 @@
             this.quesleng.Size = new System.Drawing.Size(213, 24);
             this.quesleng.TabIndex = 7;
             // 
-            // quesLen
-            // 
-            this.quesLen.AutoSize = true;
-            this.quesLen.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.quesLen.Location = new System.Drawing.Point(22, 17);
-            this.quesLen.Name = "quesLen";
-            this.quesLen.Size = new System.Drawing.Size(87, 17);
-            this.quesLen.TabIndex = 8;
-            this.quesLen.Text = "Question 1";
-            this.quesLen.Visible = false;
-            // 
             // quesgroup
             // 
             this.quesgroup.Controls.Add(this.label3);
@@ -210,8 +210,11 @@
             this.Controls.Add(this.optionplot);
             this.Controls.Add(this.questionbox);
             this.Controls.Add(this.generatormodel);
+            this.MaximizeBox = false;
             this.Name = "InputForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "InputForm";
+            this.TopMost = true;
             this.questionbox.ResumeLayout(false);
             this.questionbox.PerformLayout();
             this.quesgroup.ResumeLayout(false);
