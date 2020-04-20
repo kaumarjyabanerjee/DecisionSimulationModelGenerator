@@ -28,6 +28,7 @@ namespace DecisionSimulationModelGenerator
         //  List<string> add_list = new List<string>[100];
         int inx = 1; int inxLen = 0;
         string[] array = { "01", "02", "03", "04", "05", "06", "07", "08", "09", "10" };
+        string[] extraField = { "Meetdemenadcolor", "Meetsericelevelscolor", "CostColor", "ProductqualityColor", "LeadTimeColor", "Csatisfactory", "CSatAvgColor", "Feedback"};
         string[] myList;
         int columnIn = 0; 
         public InputForm()
@@ -293,6 +294,13 @@ namespace DecisionSimulationModelGenerator
          
        
             vstoWorksheet2.Range[GetColumnName(incre2) + 1].Value2 = "Combinations";
+            for (var f =0; f < extraField.Length; f++) {
+
+                int ix = f + 1+ incre2;
+            
+                vstoWorksheet2.Range[GetColumnName(ix) + 1].Value2 = extraField[f];
+            }
+   
             if (contentsobj.Count == 2)
             {
 
@@ -417,7 +425,19 @@ namespace DecisionSimulationModelGenerator
                 //  MessageBox.Show(valuesplit[a]);
               
             }
-            vstoWorksheet2.Range[GetColumnName(columnIn+1) + boxin].Value2 = indexes;
+            columnIn = columnIn + 1;
+            vstoWorksheet2.Range[GetColumnName(columnIn) + boxin].Value2 = indexes;
+
+            for (var f = 0; f < extraField.Length; f++)
+            {
+
+                int ix = f + 1 + columnIn;
+                if (f == extraField.Length - 1)
+                    vstoWorksheet2.Range[GetColumnName(ix) + boxin].Value2 = "Feedback ";
+                else 
+                vstoWorksheet2.Range[GetColumnName(ix) + boxin].Value2 = "Green";
+            }
+
         }
         public static string GetColumnName(int columnNumber)
         {
