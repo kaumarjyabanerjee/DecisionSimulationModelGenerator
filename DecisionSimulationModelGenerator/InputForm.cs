@@ -23,6 +23,7 @@ namespace DecisionSimulationModelGenerator
         public List<contents> contentsobj = new List<contents>(2);
         String questionPlot = "F"; String optionsPlot = "G";
         int questionPlotNum = 6; int optionsPlotNum = 6; int optCountNum = 0;
+        int totalQues = 0; int quesPlotNum = 0;
         // ArrayList contentsList = new ArrayList()
         //  List<string> add_list = new List<string>[100];
         int inx = 1; int inxLen = 0;
@@ -45,14 +46,14 @@ namespace DecisionSimulationModelGenerator
                 addoptions.Enabled = cons;
                 questions.Enabled = cons;
                 optioncount.Enabled = cons;
-                clearoptions.Enabled = cons;
+                //clearoptions.Enabled = cons;
             }
             else
             {
                 optionplot.Controls.Clear();
                 questions.Enabled = cons;
                 optioncount.Enabled = cons;
-                clearoptions.Enabled = cons;
+              //  clearoptions.Enabled = cons;
             }
         }
         public void clearGroup()
@@ -110,16 +111,18 @@ namespace DecisionSimulationModelGenerator
 
         private void addquestion_Click(object sender, EventArgs e)
         {
+            quesPlotNum++;
+            totalQues = Int32.Parse(quesleng.Text); ;
             questionbox.Show();
+            quesgroup.Hide();
+            quesLen.Show();
+      
+            questionbox.Left = 29;
+            questionbox.Top = 15;
+            quesLen.Text = "Question "+quesPlotNum.ToString();
         }
 
-        private void clearoptions_Click(object sender, EventArgs e)
-        {
-            optioncount.SelectedIndex = -1;
-
-            addoptions.Enabled = false;
-
-        }
+      
 
         private void questions_TextChanged(object sender, EventArgs e)
         {
@@ -137,41 +140,50 @@ namespace DecisionSimulationModelGenerator
 
         private void addcontent_Click(object sender, EventArgs e)
         {
-            String _questions = questions.Text;
-            addcontent.Hide();
+          
+            
+                quesPlotNum++;
+                String _questions = questions.Text;
+                addcontent.Hide();
 
-            int optCount = Int32.Parse(optioncount.Text);
-            String[] OptArr = new String[optCount];
-            int countVal = 0;
+                int optCount = Int32.Parse(optioncount.Text);
+                String[] OptArr = new String[optCount];
+                int countVal = 0;
+                quesLen.Text = "Question " + quesPlotNum.ToString();
 
 
 
+                for (int i = 1; i <= optCount; ++i)
+                {
 
-            for (int i = 1; i <= optCount; ++i)
-            {
+                    string name = "Options" + i;
 
-                string name = "Options" + i;
+                    TextBox txtBox = optionplot.Controls[name] as TextBox;
+                txtBox.Width = 350;
+                txtBox.Height = 32;
+                    OptArr[countVal] = txtBox.Text;
+                    countVal++;
+                }
 
-                TextBox txtBox = optionplot.Controls[name] as TextBox;
+                inxLen++;
+                optCountNum = inxLen;
+                contents contentList1 = new contents()
+                {
+                    ques = _questions,
+                    OptArr = OptArr
+                };
+                contentsobj.Add(contentList1);
 
-                OptArr[countVal] = txtBox.Text;
-                countVal++;
+                GenerateModel();
+                clearGroup();
+                enableDisableGroup(true, "");
+                if (quesPlotNum> totalQues)
+                {
+                addcontent.Hide();
+                questionbox.Hide();
+                    generatormodel.Show();
+                }
             }
-
-            inxLen++;
-            optCountNum = inxLen;
-            contents contentList1 = new contents()
-            {
-                ques = _questions,
-                OptArr = OptArr
-            };
-            contentsobj.Add(contentList1);
-
-            GenerateModel();
-            clearGroup();
-            enableDisableGroup(true, "");
-
-        }
 
         public void GenerateModel()
         {
@@ -278,8 +290,32 @@ namespace DecisionSimulationModelGenerator
                 vstoWorksheet2.Range[GetColumnName(incre) + 1].Value2 = "Selection "+ incre;
             }
             var incre2 = contentsobj.Count + 1;
-            
+         
+       
             vstoWorksheet2.Range[GetColumnName(incre2) + 1].Value2 = "Combinations";
+            if (contentsobj.Count == 2)
+            {
+
+                var array1 = contentsobj[0].OptArr;
+                var array2 = contentsobj[1].OptArr;
+
+
+                foreach (var a in array1.Select((value, index) => (value, index)))
+                {
+
+                    foreach (var b in array2.Select((value, index) => (value, index)))
+                    {
+
+                        
+                            string values = a.value + "_" + b.value;
+                            string indexes = a.index + "_" + b.index;
+                            //  MessageBox.Show(values);
+                            //   MessageBox.Show(indexes);
+                            plottcombinations(values, indexes);
+                        
+                    }
+                }
+            }
             if (contentsobj.Count == 3)
             {
                 
@@ -290,7 +326,6 @@ namespace DecisionSimulationModelGenerator
 
                 foreach (var a in array1.Select((value, index) => (value, index)))
                 {
-
                     foreach (var b in array2.Select((value, index) => (value, index)))
                     {
 
@@ -305,10 +340,69 @@ namespace DecisionSimulationModelGenerator
                     }
                 }
             }
-          
-            
-        }
+            if (contentsobj.Count == 4)
+            {
 
+                var array1 = contentsobj[0].OptArr;
+                var array2 = contentsobj[1].OptArr;
+                var array3 = contentsobj[2].OptArr;
+
+                var array4 = contentsobj[3].OptArr;
+                foreach (var a in array1.Select((value, index) => (value, index)))
+                {
+                    foreach (var b in array2.Select((value, index) => (value, index)))
+                    {
+
+                        foreach (var c in array3.Select((value, index) => (value, index)))
+                        {
+                         
+                            foreach (var d in array4.Select((value, index) => (value, index)))
+                            {
+                                string values = a.value + "_" + b.value + "_" + c.value + "_" + d.value;
+                                string indexes = a.index + "_" + b.index + "_" + c.index + "_" + d.index;
+                                //  MessageBox.Show(values);
+                                //   MessageBox.Show(indexes);
+                                plottcombinations(values, indexes);
+                            }
+
+                        }
+                    }
+                }
+            }
+            if (contentsobj.Count == 5)
+            {
+
+                var array1 = contentsobj[0].OptArr;
+                var array2 = contentsobj[1].OptArr;
+                var array3 = contentsobj[2].OptArr; var array4 = contentsobj[3].OptArr;
+                var array5 = contentsobj[4].OptArr;
+
+                foreach (var a in array1.Select((value, index) => (value, index)))
+                {
+                    foreach (var b in array2.Select((value, index) => (value, index)))
+                    {
+
+                        foreach (var c in array3.Select((value, index) => (value, index)))
+                        {
+                           
+                            foreach (var d in array4.Select((value, index) => (value, index)))
+                            {
+                                foreach (var g in array5.Select((value, index) => (value, index)))
+                                {
+                                    string values = a.value + "_" + b.value + "_" + c.value + "_" + d.value + "_" + g.value;
+                                    string indexes = a.index + "_" + b.index + "_" + c.index + "_" + d.index + "_" + g.index;
+                                    //  MessageBox.Show(values);
+                                    //   MessageBox.Show(indexes);
+                                    plottcombinations(values, indexes);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        public void ElementLocation(int left, int top) { 
+        }
         public void plottcombinations(string values, string indexes) {
             var valuesplit = values.Split('_');
 
@@ -338,25 +432,24 @@ namespace DecisionSimulationModelGenerator
 
             return columnName;
         }
-      
-        public static IEnumerable<IEnumerable<T>> GetPermutations<T>(IEnumerable<T> items, int count)
+
+        private void label3_Click(object sender, EventArgs e)
         {
-            int i = 0;
-            foreach (var item in items)
-            {
-                if (count == 1)
-                    yield return new T[] { item };
-                else
-                {
-                    foreach (var result in GetPermutations(items.Skip(i + 1), count - 1))
-                        yield return new T[] { item }.Concat(result);
-                }
 
-                ++i;
-            }
         }
-
-
-
+    }
+    public static class LinqHelper
+    {
+        public static IEnumerable<IEnumerable<T>> CartesianProduct<T>(
+   this IEnumerable<IEnumerable<T>> sequences)
+        {
+            IEnumerable<IEnumerable<T>> emptyProduct = new[] { Enumerable.Empty<T>() };
+            return sequences.Aggregate(
+                emptyProduct,
+                (accumulator, sequence) =>
+                    from accseq in accumulator
+                    from item in sequence
+                    select accseq.Concat(new[] { item }));
+        }
     }
 }
