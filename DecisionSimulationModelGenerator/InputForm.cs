@@ -335,7 +335,7 @@ namespace DecisionSimulationModelGenerator
             var incre2 = contentsobj.Count + 1;
          
        
-            vstoWorksheet2.Range[GetColumnName(incre2) + 1].Value2 = "Combinations";
+            vstoWorksheet2.Range[GetColumnName(incre2) + 1].Value2 = "ConcatID";
             for (var f =0; f < extraField.Length; f++) {
 
                 int ix = f + 1+ incre2;
