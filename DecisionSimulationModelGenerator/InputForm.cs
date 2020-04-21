@@ -85,6 +85,16 @@ namespace DecisionSimulationModelGenerator
                 t.Name = "Options" + i;
                 optionplot.Controls.Add(l);
                 optionplot.Controls.Add(t);
+                int _top = 280;
+                optionplot.Top = _top;
+                optionplot.Left = 29;
+                int inc = i + 1;
+           
+                t.Top = _top * inc;
+                t.Width = 230;
+                t.Height = 24;
+                l.Top = 292 * inc;
+                l.Left =30;
                 // optionplot.Controls.Add(labels[i]);
                 // Here you can modify the value of the label which is at labels[i]
             }
@@ -112,15 +122,21 @@ namespace DecisionSimulationModelGenerator
 
         private void addquestion_Click(object sender, EventArgs e)
         {
-            quesPlotNum++;
-            totalQues = Int32.Parse(quesleng.Text); ;
-            questionbox.Show();
-            quesgroup.Hide();
-            quesLen.Show();
-      
-            questionbox.Left = 29;
-            questionbox.Top = 15;
-            quesLen.Text = "Question "+quesPlotNum.ToString();
+            if (quesleng.Text == "") {
+                MessageBox.Show("Please select question number.");
+            }
+            else
+            {
+                quesPlotNum++;
+                totalQues = Int32.Parse(quesleng.Text); ;
+                questionbox.Show();
+                quesgroup.Hide();
+                quesLen.Show();
+
+                questionbox.Left = 29;
+                questionbox.Top = 15;
+                quesLen.Text = "Question " + quesPlotNum.ToString();
+            }
         }
 
       
@@ -151,7 +167,7 @@ namespace DecisionSimulationModelGenerator
                 String[] OptArr = new String[optCount];
                 int countVal = 0;
                 quesLen.Text = "Question " + quesPlotNum.ToString();
-
+            int emptystring = 0;
 
 
                 for (int i = 1; i <= optCount; ++i)
@@ -160,12 +176,22 @@ namespace DecisionSimulationModelGenerator
                     string name = "Options" + i;
 
                     TextBox txtBox = optionplot.Controls[name] as TextBox;
-                txtBox.Width = 350;
-                txtBox.Height = 32;
-                    OptArr[countVal] = txtBox.Text;
-                    countVal++;
+                if (txtBox.Text == "") { emptystring++; }
+                else {
+                  
+                  
                 }
+                OptArr[countVal] = txtBox.Text;
+                countVal++;
 
+            }
+            if (emptystring != 0) {
+                quesPlotNum = quesPlotNum - 1;
+                addcontent.Show();
+                MessageBox.Show("All the option box should have content.");
+            }
+            else
+            {
                 inxLen++;
                 optCountNum = inxLen;
                 contents contentList1 = new contents()
@@ -178,28 +204,20 @@ namespace DecisionSimulationModelGenerator
                 GenerateModel();
                 clearGroup();
                 enableDisableGroup(true, "");
-                if (quesPlotNum> totalQues)
+                if (quesPlotNum > totalQues)
                 {
-                addcontent.Hide();
-                questionbox.Hide();
+                    addcontent.Hide();
+                    questionbox.Hide();
                     generatormodel.Show();
+                    generatormodel.Dock =DockStyle.Top;
+                   generatormodel.Height = 120;
                 }
             }
+            }
 
-        public void GenerateModel()
+        public void GenerateModel ( )
         {
-            /*   MessageBox.Show("contents:: " + contents.Length);
-               for (int i = 0; i < contents.Length; i++)
-               {
-                   MessageBox.Show(contents[i].ques);
-                   MessageBox.Show("contents:: " + contents.Length);
-                   for (int k = 0; k < contents[i].OptArr.Length; k++)
-                   {
-                       MessageBox.Show("k:: "+k);
-                       MessageBox.Show(contents[i].OptArr[k]);
-                   }
-               }
-               */
+
             Worksheet vstoWorksheet = Globals.ThisAddIn.Application.ActiveWorkbook.Worksheets[1];
             vstoWorksheet.Range[questionPlot + questionPlotNum].Value2 = "Questions";
             vstoWorksheet.Range[optionsPlot + optionsPlotNum].Value2 = "Options";
@@ -258,11 +276,9 @@ namespace DecisionSimulationModelGenerator
                 plotNumOpt = LastplotNumOpt;
                 plotNumOpt = plotNumOpt + 1;
             }
-
+           
 
         }
-
-
         public class contents
         {
 
@@ -274,11 +290,37 @@ namespace DecisionSimulationModelGenerator
         {
           String[] contetObjOpt = new String[optCountNum];
           //  ArrayList contetObjOpt = new ArrayList(optCountNum);
+            
+
+
+
+            int startPlot = 1;
+
+            Excel.Worksheet newWorksheet2;
+            newWorksheet2 = (Excel.Worksheet)Globals.ThisAddIn.Application.Worksheets.Add();
+            newWorksheet2.Name = "Developers";
+            Worksheet vstoWorksheet3 = Globals.ThisAddIn.Application.ActiveWorkbook.Worksheets[1];
+            vstoWorksheet3.Range[GetColumnName(1) + startPlot].Value2 = "questionsplots";
+            int totalIn = 0;
+            foreach (contents item in contentsobj)
+            {
+                String ques = item.ques;
+                string concating = "";
+
+                for (int i = 0; i < item.OptArr.Length; ++i)
+                {
+                    totalIn++;
+                    concating += ques + "~" + item.OptArr[i];
+                    int plt = startPlot + totalIn;
+                    vstoWorksheet3.Range[GetColumnName(1) + plt].Value2 = concating;
+                    concating = "";
+                }
+            }
             Excel.Worksheet newWorksheet;
             newWorksheet = (Excel.Worksheet)Globals.ThisAddIn.Application.Worksheets.Add();
             newWorksheet.Name = "COMBINATION";
             Worksheet vstoWorksheet2 = Globals.ThisAddIn.Application.ActiveWorkbook.Worksheets[1];
-          
+
             myList = new string[optCountNum];
             //    vstoWorksheet.Range[questionPlot + questionPlotNum].Value2 = "Questions";
           
@@ -454,6 +496,11 @@ namespace DecisionSimulationModelGenerator
         }
 
         private void label3_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void InputForm_Load ( object sender, EventArgs e )
         {
 
         }
