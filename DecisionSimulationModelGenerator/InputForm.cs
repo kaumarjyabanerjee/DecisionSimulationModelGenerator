@@ -141,8 +141,8 @@ namespace DecisionSimulationModelGenerator
 
         private void addcontent_Click(object sender, EventArgs e)
         {
-          
-            
+        
+         
                 quesPlotNum++;
                 String _questions = questions.Text;
                 addcontent.Hide();
