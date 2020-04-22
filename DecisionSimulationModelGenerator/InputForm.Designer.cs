@@ -62,7 +62,7 @@
             // generatormodel
             // 
             this.generatormodel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
-            this.generatormodel.Location = new System.Drawing.Point(35, 597);
+            this.generatormodel.Location = new System.Drawing.Point(29, 537);
             this.generatormodel.Name = "generatormodel";
             this.generatormodel.Size = new System.Drawing.Size(678, 41);
             this.generatormodel.TabIndex = 1;
@@ -164,7 +164,7 @@
             // addcontent
             // 
             this.addcontent.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
-            this.addcontent.Location = new System.Drawing.Point(37, 537);
+            this.addcontent.Location = new System.Drawing.Point(29, 634);
             this.addcontent.Name = "addcontent";
             this.addcontent.Size = new System.Drawing.Size(676, 40);
             this.addcontent.TabIndex = 5;
@@ -215,7 +215,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Window;
-            this.ClientSize = new System.Drawing.Size(749, 586);
+            this.ClientSize = new System.Drawing.Size(749, 686);
             this.Controls.Add(this.quesgroup);
             this.Controls.Add(this.addcontent);
             this.Controls.Add(this.optionplot);
@@ -225,7 +225,7 @@
             this.MaximizeBox = false;
             this.Name = "InputForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "InputForm";
+            this.Text = "Input Model Data";
             this.Load += new System.EventHandler(this.InputForm_Load);
             this.questionbox.ResumeLayout(false);
             this.questionbox.PerformLayout();

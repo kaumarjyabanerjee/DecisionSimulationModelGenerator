@@ -72,14 +72,15 @@ namespace DecisionSimulationModelGenerator
             int optCount = Int32.Parse(optioncount.Text);
 
             addcontent.Show();
-
+           optionplot.Height = 45 * optCount + 50;
+          // addcontent.Top = optionplot.Height+10;
             for (int i = 1; i <= optCount; i++)
             {
                 // textBoxes[i] = new TextBox();
                 // Here you can modify the value of the textbox which is at textBoxes[i]
 
                 Label l = new Label();
-                TextBox t = new TextBox();
+                RichTextBox t = new RichTextBox();
                 l.Name = i.ToString();
                 l.Text = "Options " + i;
                 t.Name = "Options" + i;
@@ -91,10 +92,11 @@ namespace DecisionSimulationModelGenerator
                 int inc = i + 1;
            
                 t.Top = _top * inc;
-                t.Width = 230;
-                t.Height = 24;
+                t.Width = 550;
+                t.Height = 45;
                 l.Top = 292 * inc;
                 l.Left =30;
+               
                 // optionplot.Controls.Add(labels[i]);
                 // Here you can modify the value of the label which is at labels[i]
             }
@@ -116,14 +118,23 @@ namespace DecisionSimulationModelGenerator
         }
         private void addoptions_Click(object sender, EventArgs e)
         {
-            createOptions();
+                if (Int32.Parse(optioncount.Text) > 5)
+            {
+                MessageBox.Show("Can't add more than 5 options.");
+            }
+            else { createOptions(); }
+            
 
         }
 
         private void addquestion_Click(object sender, EventArgs e)
         {
-            if (quesleng.Text == "") {
+            if (quesleng.Text == "")
+            {
                 MessageBox.Show("Please select question number.");
+            }
+            else if (Int32.Parse(quesleng.Text) > 5) {
+                MessageBox.Show("Can't add more than 5 questions.");
             }
             else
             {
@@ -175,7 +186,7 @@ namespace DecisionSimulationModelGenerator
 
                     string name = "Options" + i;
 
-                    TextBox txtBox = optionplot.Controls[name] as TextBox;
+                RichTextBox txtBox = optionplot.Controls[name] as RichTextBox;
                 if (txtBox.Text == "") { emptystring++; }
                 else {
                   
@@ -208,9 +219,11 @@ namespace DecisionSimulationModelGenerator
                 {
                     addcontent.Hide();
                     questionbox.Hide();
-                    generatormodel.Show();
-                    generatormodel.Dock =DockStyle.Top;
+                    optionplot.Hide();
+                  generatormodel.Show();
+                  
                    generatormodel.Height = 120;
+                    generatormodel.Top = 306;
                 }
             }
             }
